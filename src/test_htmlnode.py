@@ -15,6 +15,14 @@ class TestHTMLNode(unittest.TestCase):
             repr(node),
         )
 
+    def test_props_to_htmL(self):
+        node = HTMLNode(
+            "a", "test", props={"href": "https://www.google.com", "target": "_blank"}
+        )
+        self.assertEqual(
+            'href="https://www.google.com" target="_blank"', node.props_to_html()
+        )
+
     def test_props_to_html_no_props(self):
         node = HTMLNode("p", "test")
         with self.assertRaises(Exception, msg="Node has no props"):

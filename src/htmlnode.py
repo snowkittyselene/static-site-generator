@@ -13,7 +13,7 @@ class HTMLNode:
             raise Exception("Node has no props")
         html = ""
         for prop in self.props:
-            html += f"{prop}={self.props[prop]} "
+            html += f'{prop}="{self.props[prop]}" '
         return html[:-1]
 
     def __repr__(self):
