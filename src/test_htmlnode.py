@@ -1,5 +1,5 @@
 import unittest
-from htmlnode import HTMLNode
+from htmlnode import HTMLNode, NoPropertiesError
 
 
 class TestHTMLNode(unittest.TestCase):
@@ -25,7 +25,7 @@ class TestHTMLNode(unittest.TestCase):
 
     def test_props_to_html_no_props(self):
         node = HTMLNode("p", "test")
-        with self.assertRaises(Exception, msg="Node has no props"):
+        with self.assertRaises(NoPropertiesError):
             node.props_to_html()
 
     def test_values(self):

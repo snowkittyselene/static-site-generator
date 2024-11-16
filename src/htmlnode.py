@@ -10,7 +10,7 @@ class HTMLNode:
 
     def props_to_html(self):
         if self.props == None:
-            raise Exception("Node has no props")
+            raise NoPropertiesError
         html = ""
         for prop in self.props:
             html += f'{prop}="{self.props[prop]}" '
@@ -18,3 +18,7 @@ class HTMLNode:
 
     def __repr__(self):
         return f"HTMLNode(Tag: {self.tag}, Value: {self.value}, Children: {self.children}, Props: {self.props})"
+
+
+class NoPropertiesError(Exception):
+    pass
