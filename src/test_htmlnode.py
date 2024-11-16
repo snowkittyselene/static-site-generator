@@ -20,6 +20,13 @@ class TestHTMLNode(unittest.TestCase):
         with self.assertRaises(Exception, msg="Node has no props"):
             node.props_to_html()
 
+    def test_values(self):
+        node = HTMLNode("a", "test", props={"href": "https://www.google.com"})
+        self.assertEqual(node.tag, "a")
+        self.assertEqual(node.value, "test")
+        self.assertEqual(node.children, None)
+        self.assertEqual(node.props, {"href": "https://www.google.com"})
+
 
 if __name__ == "__main__":
     unittest.main()
