@@ -9,6 +9,7 @@ class HTMLNode:
         raise NotImplementedError
 
     def props_to_html(self):
+        # Can't turn properties to HTML if there are no properties
         if self.props == None:
             raise NoPropertiesError
         html = ""

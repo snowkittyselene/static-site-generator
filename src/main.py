@@ -1,9 +1,12 @@
-from textnode import *
+from textnode import TextNode, TextType
+from htmlnode import HTMLNode
+from leafnode import LeafNode
+from parentnode import ParentNode
 
 
 def main():
-    test_node = TextNode("This is a text node", TextType.BOLD, "https://www.boot.dev")
-    print(test_node)
+    # To be implemented
+    pass
 
 
 if __name__ == "__main__":
