@@ -5,7 +5,7 @@ from htmlnode import HTMLNode, LeafNode, ParentNode
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
     for node in old_nodes:
-        if node.text_type != TextType.NORMAL:
+        if node.text_type != TextType.TEXT:
             new_nodes.append(node)
         else:
             split_nodes = []
@@ -16,7 +16,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
                 if delimited[i] == "":
                     continue
                 if i % 2 == 0:
-                    split_nodes.append(TextNode(delimited[i], TextType.NORMAL))
+                    split_nodes.append(TextNode(delimited[i], TextType.TEXT))
                 else:
                     split_nodes.append(TextNode(delimited[i], text_type))
             new_nodes.extend(split_nodes)

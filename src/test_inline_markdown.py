@@ -10,28 +10,28 @@ class TestConverter(unittest.TestCase):
         self.assertEqual(node, new_nodes[0])
 
     def test_text_node(self):
-        node = TextNode("I am **bold** text!", TextType.NORMAL)
+        node = TextNode("I am **bold** text!", TextType.TEXT)
         new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
         expected = [
-            TextNode("I am ", TextType.NORMAL),
+            TextNode("I am ", TextType.TEXT),
             TextNode("bold", TextType.BOLD),
-            TextNode(" text!", TextType.NORMAL),
+            TextNode(" text!", TextType.TEXT),
         ]
         self.assertEqual(new_nodes, expected)
 
     def test_no_closing_delimiter(self):
-        node = TextNode("I am **bold text!", TextType.NORMAL)
+        node = TextNode("I am **bold text!", TextType.TEXT)
         with self.assertRaises(ValueError, msg="Invalid Markdown syntax"):
             new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
 
     def test_multiple_delimiters(self):
-        node = TextNode("This is **bold** and *italic*", TextType.NORMAL)
+        node = TextNode("This is **bold** and *italic*", TextType.TEXT)
         new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
         new_nodes = split_nodes_delimiter(new_nodes, "*", TextType.ITALIC)
         expected = [
-            TextNode("This is ", TextType.NORMAL),
+            TextNode("This is ", TextType.TEXT),
             TextNode("bold", TextType.BOLD),
-            TextNode(" and ", TextType.NORMAL),
+            TextNode(" and ", TextType.TEXT),
             TextNode("italic", TextType.ITALIC),
         ]
         self.assertEqual(new_nodes, expected)

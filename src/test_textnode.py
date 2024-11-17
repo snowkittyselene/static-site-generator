@@ -15,7 +15,7 @@ class TestTextNode(unittest.TestCase):
 
     def test_not_eq_type(self):
         node = TextNode("This is a text node", TextType.BOLD)
-        node2 = TextNode("This is a text node", TextType.NORMAL)
+        node2 = TextNode("This is a text node", TextType.TEXT)
         self.assertNotEqual(node, node2)
 
     def test_not_eq_url(self):
@@ -33,7 +33,7 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual("TextNode(This is a text node, bold, None)", repr(node))
 
     def test_convert_to_html_normal(self):
-        node = TextNode("This is a text node", TextType.NORMAL)
+        node = TextNode("This is a text node", TextType.TEXT)
         html_node = text_node_to_html_node(node)
         self.assertEqual(
             "LeafNode(None, This is a text node, props: None)", repr(html_node)
