@@ -96,6 +96,30 @@ class TestConverter(unittest.TestCase):
             ],
         )
 
+    def test_single_image(self):
+        image = TextNode(
+            "![This is an image](https://i.imgur.com/aKaOqIh.gif)", TextType.TEXT
+        )
+        self.assertEqual(
+            split_nodes_image([image]),
+            [
+                TextNode(
+                    "This is an image",
+                    TextType.IMAGE,
+                    "https://i.imgur.com/aKaOqIh.gif",
+                ),
+            ],
+        )
+
+    def test_single_link(self):
+        link = TextNode("[this is a link](https://www.google.com/)", TextType.TEXT)
+        self.assertEqual(
+            split_nodes_link([link]),
+            [
+                TextNode("this is a link", TextType.LINK, "https://www.google.com/"),
+            ],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
