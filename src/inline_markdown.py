@@ -34,47 +34,68 @@ def extract_markdown_links(text):
 
 def split_nodes_image(old_nodes):
     new_nodes = []
-    for node in old_nodes:
-        if node.text_type != TextType.TEXT:
-            new_nodes.append(node)
-        else:
-            split_nodes = []
-            extracted_images = extract_markdown_images(node.text)
-            text = node.text
-            for extracted_image in extracted_images:
-                # make the node for the image
-                image_url = extracted_image[1]
-                image_alt = extracted_image[0]
-                image_text = f"![{image_alt}]({image_url})"
-                image_node = TextNode(image_alt, TextType.IMAGE, image_url)
-                split_text = text.split(image_text, 1)
-                if split_text[0] != "":
-                    split_nodes.append(TextNode(split_text[0], TextType.TEXT))
-                split_nodes.append(image_node)
-                text = split_text[1]
-            new_nodes.extend(split_nodes)
+    for old_node in old_nodes:
+        if old_node.text_type != TextType.TEXT:
+            new_nodes.append(old_node)
+            continue
+        original_text = old_node.text
+        images = extract_markdown_images(original_text)
+        if len(images) == 0:
+            new_nodes.append(old_node)
+            continue
+        for image in images:
+            sections = original_text.split(f"![{image[0]}]({image[1]})", 1)
+            if len(sections) != 2:
+                raise ValueError("Invalid markdown, image section not closed")
+            if sections[0] != "":
+                new_nodes.append(TextNode(sections[0], TextType.TEXT))
+            new_nodes.append(
+                TextNode(
+                    image[0],
+                    TextType.IMAGE,
+                    image[1],
+                )
+            )
+            original_text = sections[1]
+        if original_text != "":
+            new_nodes.append(TextNode(original_text, TextType.TEXT))
     return new_nodes
 
 
 def split_nodes_link(old_nodes):
     new_nodes = []
-    for node in old_nodes:
-        if node.text_type != TextType.TEXT:
-            new_nodes.append(node)
-        else:
-            split_nodes = []
-            extracted_links = extract_markdown_links(node.text)
-            text = node.text
-            for extracted_link in extracted_links:
-                # make the node for the image
-                link_url = extracted_link[1]
-                link_desc = extracted_link[0]
-                link_text = f"[{link_desc}]({link_url})"
-                link_node = TextNode(link_desc, TextType.LINK, link_url)
-                split_text = text.split(link_text, 1)
-                if split_text[0] != "":
-                    split_nodes.append(TextNode(split_text[0], TextType.TEXT))
-                split_nodes.append(link_node)
-                text = split_text[1]
-            new_nodes.extend(split_nodes)
+    for old_node in old_nodes:
+        if old_node.text_type != TextType.TEXT:
+            new_nodes.append(old_node)
+            continue
+        original_text = old_node.text
+        links = extract_markdown_links(original_text)
+        if len(links) == 0:
+            new_nodes.append(old_node)
+            continue
+        for link in links:
+            sections = original_text.split(f"[{link[0]}]({link[1]})", 1)
+            if len(sections) != 2:
+                raise ValueError("Invalid markdown, link section not closed")
+            if sections[0] != "":
+                new_nodes.append(TextNode(sections[0], TextType.TEXT))
+            new_nodes.append(TextNode(link[0], TextType.LINK, link[1]))
+            original_text = sections[1]
+        if original_text != "":
+            new_nodes.append(TextNode(original_text, TextType.TEXT))
     return new_nodes
+
+
+def text_to_textnodes(text):
+    nodes = [TextNode(text, TextType.TEXT)]
+    # Split out bold
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    # Split out italic
+    nodes = split_nodes_delimiter(nodes, "*", TextType.ITALIC)
+    # Split out code
+    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+    # Split out links
+    nodes = split_nodes_link(nodes)
+    # Split out images
+    nodes = split_nodes_image(nodes)
+    return nodes
