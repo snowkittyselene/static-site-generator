@@ -69,7 +69,7 @@ def markdown_to_html_node(markdown):
             case BlockType.ORDERED_LIST:
                 pass
             case BlockType.PARAGRAPH:
-                pass
+                html_nodes.extend(text_node_to_html_node(split_nodes_delimiter(block)))
 
 
 def header_to_html_node(header):
