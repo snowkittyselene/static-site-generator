@@ -1,4 +1,12 @@
 from enum import Enum
+from htmlnode import HTMLNode, LeafNode, ParentNode
+from textnode import TextNode, TextType, text_node_to_html_node
+from inline_markdown import (
+    split_nodes_delimiter,
+    split_nodes_image,
+    split_nodes_link,
+    text_to_textnodes,
+)
 
 
 class BlockType(Enum):
@@ -45,5 +53,26 @@ def block_to_block_type(block):
     return BlockType.PARAGRAPH
 
 
-def markdown_to_htlm_node(markdown):
-    pass
+def markdown_to_html_node(markdown):
+    blocks = markdown_to_blocks(markdown)
+    html_nodes = []
+    for block in blocks:
+        match block_to_block_type(block):
+            case BlockType.HEADING:
+                html_nodes.append(header_to_html_node(block))
+            case BlockType.CODE:
+                pass
+            case BlockType.QUOTE:
+                pass
+            case BlockType.UNORDERED_LIST:
+                pass
+            case BlockType.ORDERED_LIST:
+                pass
+            case BlockType.PARAGRAPH:
+                pass
+
+
+def header_to_html_node(header):
+    header_number = header.count("#")
+    text = header.strip("#").strip()
+    return LeafNode(f"h{header_number}", text)
