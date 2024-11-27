@@ -61,9 +61,9 @@ def markdown_to_html_node(markdown):
             case BlockType.HEADING:
                 html_nodes.append(header_to_html_node(block))
             case BlockType.CODE:
-                pass
+                html_nodes.append(LeafNode("code", block))
             case BlockType.QUOTE:
-                pass
+                html_nodes.append(LeafNode("blockquote", block))
             case BlockType.UNORDERED_LIST:
                 pass
             case BlockType.ORDERED_LIST:
