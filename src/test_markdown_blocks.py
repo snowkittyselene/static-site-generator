@@ -1,5 +1,11 @@
 import unittest
-from markdown_blocks import markdown_to_blocks, block_to_block_type, BlockType
+from markdown_blocks import (
+    markdown_to_blocks,
+    block_to_block_type,
+    BlockType,
+    markdown_to_html_node,
+)
+from htmlnode import ParentNode, LeafNode
 
 
 class TestMarkdownBlocks(unittest.TestCase):
@@ -54,6 +60,43 @@ This is the same paragraph on a new line
         self.assertEqual(block_to_block_type(block), BlockType.ORDERED_LIST)
         block = "paragraph"
         self.assertEqual(block_to_block_type(block), BlockType.PARAGRAPH)
+
+    def test_markdown_to_html(self):
+        markdown = """# Header
+
+Paragraph
+
+- List item
+- List item
+
+1. List item
+2. List item
+
+[link](somewhere)
+
+![image](something)
+
+*italics*
+
+**bold**"""
+        expected = ParentNode(
+            "div",
+            [
+                LeafNode("h1", "Header"),
+                LeafNode("p", "Paragraph"),
+                ParentNode(
+                    "ul", [LeafNode("li", "List item"), LeafNode("li", "List item")]
+                ),
+                ParentNode(
+                    "ol", [LeafNode("li", "List item"), LeafNode("li", "List item")]
+                ),
+                LeafNode("a", "link", {"href": "somewhere"}),
+                LeafNode("img", None, {"src": "something", "alt": "image"}),
+                LeafNode("i", "italics"),
+                LeafNode("b", "bold"),
+            ],
+        )
+        # self.assertEqual(markdown_to_html_node(markdown), expected)
 
 
 if __name__ == "__main__":
