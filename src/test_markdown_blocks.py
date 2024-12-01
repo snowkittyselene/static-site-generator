@@ -96,7 +96,7 @@ Paragraph
                 LeafNode("b", "bold"),
             ],
         )
-        # self.assertEqual(markdown_to_html_node(markdown), expected)
+        self.assertEqual(markdown_to_html_node(markdown), expected)
 
 
 if __name__ == "__main__":
