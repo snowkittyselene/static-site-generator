@@ -99,3 +99,11 @@ def text_to_textnodes(text):
     # Split out images
     nodes = split_nodes_image(nodes)
     return nodes
+
+
+def extract_title(markdown):
+    lines = markdown.split("\n")
+    for line in lines:
+        if line.startswith("# "):
+            return line.strip("#").strip()
+    raise ValueError("File has no h1 header")

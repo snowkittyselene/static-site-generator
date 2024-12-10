@@ -6,6 +6,7 @@ from inline_markdown import (
     split_nodes_image,
     split_nodes_link,
     text_to_textnodes,
+    extract_title,
 )
 from textnode import TextNode, TextType
 
@@ -138,6 +139,13 @@ class TestConverter(unittest.TestCase):
             TextNode("link", TextType.LINK, "https://boot.dev"),
         ]
         self.assertEqual(text_to_textnodes(text), expected)
+
+    def test_extract_title_valid(self):
+        self.assertEqual(extract_title("# Title"), "Title")
+
+    def test_extract_title_invalid(self):
+        with self.assertRaises(ValueError, msg="File has no h1 header"):
+            extract_title("asdf")
 
 
 if __name__ == "__main__":
