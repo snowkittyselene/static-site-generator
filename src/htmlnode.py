@@ -28,7 +28,7 @@ class LeafNode(HTMLNode):
     def to_html(self):
         # Leaf nodes must have a value
         if self.value == None:
-            raise ValueError
+            raise ValueError("HTML node must have value.")
 
         # If no tag, then display just as raw text
         if self.tag == None:
@@ -50,7 +50,7 @@ class ParentNode(HTMLNode):
     def to_html(self):
         # Parent nodes must have a tag
         if self.tag == None:
-            raise ValueError
+            raise ValueError("Parent node must have children")
 
         # Parent nodes must have children
         if self.children == None:
