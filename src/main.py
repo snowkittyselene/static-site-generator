@@ -4,13 +4,13 @@ from markdown_blocks import markdown_to_html_node
 from inline_markdown import extract_title
 
 PATH_STATIC = "./static"
-PATH_PUBLIC = "./public"
+PATH_DOCS = "./docs"
 PATH_TEMPLATE = "template.html"
 
 
 def main():
     basepath = "/" if len(sys.argv) != 2 else sys.argv[1]
-    copy_files(PATH_STATIC, PATH_PUBLIC)
+    copy_files(PATH_STATIC, PATH_DOCS)
     generate_pages_recursive("./content/", PATH_TEMPLATE, "./docs/", basepath)
 
 
