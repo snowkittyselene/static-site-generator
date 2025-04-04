@@ -91,7 +91,7 @@ def text_to_textnodes(text):
     # Split out bold
     nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
     # Split out italic
-    nodes = split_nodes_delimiter(nodes, "*", TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
     # Split out code
     nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
     # Split out links
